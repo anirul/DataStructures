@@ -24,6 +24,7 @@ public:
 				index_ = end_;
 			return *this;
 		}
+		std::size_t index() const { return index_; }
 
 	protected:
 		Vector& vec_;
@@ -50,9 +51,18 @@ public:
 	void push_back(const T& element) 
 	{
 		if (size_ + 1 > capacity_)
-			reserve((capacity_) ? capacity_ * 2 : 1);
+			reserve((capacity_) ? capacity_ * 2 : 8);
 		data_[size_] = element;
 		size_++;
+	}
+	VectorIterator& erase(const VectorIterator& it) 
+	{
+		auto index = it.index();
+		for (std::size_t i = index; i < size_; ++i)
+			data_[i] = data_[i + 1];
+		size_--;
+		if (size_ < capacity_ / 2)
+			reserve(capacity_ / 2);
 	}
 	VectorIterator begin() { return VectorIterator(*this, 0); }
 	VectorIterator end() { return VectorIterator(*this, end_); }
