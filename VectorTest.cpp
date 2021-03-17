@@ -3,7 +3,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 
-TEST(Vector, SimpleTest)
+TEST(VectorTest, SimpleTest)
 {
 	Vector<int> myVector;
 	myVector.reserve(1000);

@@ -49,3 +49,13 @@ target_link_libraries(VectorTest
 	GTest::gtest
 	GTest::gtest_main
 )
+
+add_executable(ListTest
+    List.h
+    ListTest.cpp
+)
+
+target_link_libraries(ListTest
+	GTest::gtest
+	GTest::gtest_main
+)
