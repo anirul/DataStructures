@@ -12,7 +12,7 @@ public:
 		VectorIterator(Vector& vec, std::size_t index) : 
 			vec_(vec), index_(index) {}
 		T& operator*() { return vec_.operator[](index_); }
-		bool operator!=(const VectorIterator& r) 
+		bool operator!=(const VectorIterator& r) const
 		{
 			return index_ != r.index_;
 		}
