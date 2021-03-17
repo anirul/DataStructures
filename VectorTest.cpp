@@ -1,11 +1,11 @@
-// #include "Vector.h"
+#include "Vector.h"
 #include <cassert>
 #include <iostream>
 #include <gtest/gtest.h>
 
 TEST(Vector, SimpleTest)
 {
-	std::vector<int> myVector;
+	Vector<int> myVector;
 	myVector.reserve(1000);
 	EXPECT_EQ(myVector.capacity(), 1000);
 	for (int i = 0; i < 100; ++i)
