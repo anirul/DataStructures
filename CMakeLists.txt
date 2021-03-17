@@ -59,3 +59,13 @@ target_link_libraries(ListTest
 	GTest::gtest
 	GTest::gtest_main
 )
+
+add_executable(TreeTest
+    Tree.h
+    TreeTest.cpp
+)
+
+target_link_libraries(TreeTest
+	GTest::gtest
+	GTest::gtest_main
+)
