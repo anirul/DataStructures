@@ -35,7 +35,7 @@ public:
 
 public:
 	List() {}
-	virtual ~List() { while (front()) pop_front(); }
+	virtual ~List() { while (front().pointer()) pop_front(); }
 	ListIterator front() { return ListIterator(root_); }
 	ListIterator back() { return ListIterator(end_); }
 	ListIterator begin() { return ListIterator(root_); }
