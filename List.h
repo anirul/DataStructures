@@ -35,7 +35,7 @@ public:
 
 public:
 	List() {}
-	virtual ~List() {}
+	virtual ~List() { while (front()) pop_front(); }
 	ListIterator front() { return ListIterator(root_); }
 	ListIterator back() { return ListIterator(end_); }
 	ListIterator begin() { return ListIterator(root_); }
@@ -76,13 +76,17 @@ public:
 		{
 			ListNode* previous = previous_element(end_);
 			delete end_;
-			previous->next = nullptr;
-			end_ = previous;
+			if (previous)
+			{
+				previous->next = nullptr;
+				end_ = previous;
+			}
 			size_--;
 		}
 		if (size_ == 0)
 		{
 			root_ = nullptr;
+			end_ = nullptr;
 		}
 	}
 	void push_front(const T& element) 
@@ -96,12 +100,10 @@ public:
 	}
 	void pop_front() 
 	{
-		if (root_)
-		{
-			ListNode* p = root_->next;
-			delete root_;
-			root_ = p;
-		}
+		if (!root_) return;
+		ListNode* p = root_->next;
+		delete root_;
+		root_ = p;
 		size_--;
 		if (size_ == 1)
 		{

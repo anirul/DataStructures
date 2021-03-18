@@ -4,7 +4,7 @@
 #include <random>
 #include "Tree.h"
 
-TEST(VectorTest, SimpleTest)
+TEST(TreeTest, SimpleTest)
 {
 	std::random_device rd;
 	std::mt19937 e2(rd());
