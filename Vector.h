@@ -69,7 +69,7 @@ public:
 	T& operator[](std::size_t index) { return data_[index]; }
 	const T& at(std::size_t index) const { return data_[index]; }
 	std::size_t size() const { return size_; }
-	bool empty() const { size_ = 0; }
+	bool empty() const { return !(bool)size_; }
 
 protected:
 	std::size_t size_ = 0;

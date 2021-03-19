@@ -45,7 +45,7 @@ public:
 		{ 
 			return pointer_ != r.pointer_; 
 		}
-		TreeIterator operator++() 
+		TreeIterator& operator++() 
 		{
 			switch (direction_)
 			{
@@ -54,7 +54,8 @@ public:
 					if (pointer_->left)
 					{
 						direction_ = TreeLocation::right;
-						return TreeIterator(pointer_->left);
+						pointer_ = pointer_->left;
+						return *this;
 					}
 					[[fallthrough]];
 				}
@@ -63,16 +64,23 @@ public:
 					if (pointer_->right)
 					{
 						direction_ = TreeLocation::top;
-						return TreeIterator(pointer_->right);
+						pointer_ = pointer_->right;
+						return *this;
 					}
 					[[fallthrough]];
 				}
 				case TreeLocation::top:
 				{
 					if (pointer_->parent)
-						return TreeIterator(pointer_->parent).operator++();
+					{
+						pointer_ = pointer_->parent;
+						return *this;
+					}
 					else
-						return TreeIterator(nullptr);
+					{
+						pointer_ = nullptr;
+						return *this;
+					}
 				}
 				default:
 					throw std::runtime_error("should not be here.");
