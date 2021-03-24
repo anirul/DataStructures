@@ -76,3 +76,13 @@ target_link_libraries(TreeTest
 	GTest::gtest
 	GTest::gtest_main
 )
+
+add_executable(HashTest
+    Hash.h
+    HashTest.cpp
+)
+
+target_link_libraries(HashTest
+	GTest::gtest
+	GTest::gtest_main
+)

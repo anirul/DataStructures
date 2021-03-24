@@ -35,13 +35,26 @@ public:
 
 public:
 	List() {}
-	virtual ~List() { while (front().pointer()) pop_front(); }
-	ListIterator front() { return ListIterator(root_); }
-	ListIterator back() { return ListIterator(end_); }
+	virtual ~List() { while (begin().pointer()) pop_front(); }
+	T& front() { return root_->element; }
+	T& back() 
+	{ 
+		auto* p = root_;
+		while (p->next) p = p->next;
+		return p->element; 
+	}
 	ListIterator begin() { return ListIterator(root_); }
 	ListIterator end() { return ListIterator(nullptr); }
-	void clear() {}
-	ListIterator insert(ListIterator it, const T& element) {}
+	void clear() { while (root_) erase(root_); }
+	ListIterator insert(ListIterator it, const T& element) 
+	{
+		ListNode* current = it.pointer();
+		ListNode* new_element = new ListNode;
+		new_element->element = element;
+		new_element->next = current->next;
+		current->next = new_element;
+		size_++;
+	}
 	ListIterator erase(ListIterator it) 
 	{
 		ListNode* previous = previous_element(it.pointer());

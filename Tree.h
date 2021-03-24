@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+
 template <typename T>
 class Tree
 {
@@ -47,39 +49,34 @@ public:
 		}
 		TreeIterator& operator++() 
 		{
-			switch (direction_)
+			if (path_.size() == 0)
+			{
+				push_right();
+			}
+			switch (path_.back())
 			{
 				case TreeLocation::left:
 				{
-					if (pointer_->left)
-					{
-						direction_ = TreeLocation::right;
-						pointer_ = pointer_->left;
-						return *this;
-					}
-					[[fallthrough]];
-				}
-				case TreeLocation::right:
-				{
 					if (pointer_->right)
 					{
-						direction_ = TreeLocation::top;
-						pointer_ = pointer_->right;
-						return *this;
-					}
-					[[fallthrough]];
-				}
-				case TreeLocation::top:
-				{
-					if (pointer_->parent)
-					{
-						pointer_ = pointer_->parent;
-						return *this;
+						this->push_right();
 					}
 					else
 					{
+						this->push_up();
+					}
+				}
+				case TreeLocation::right:
+				{
+					if (pointer_->parent)
+					{
+						this->push_up();
+					}
+					else
+					{
+						assert(path_.size() == 1);
 						pointer_ = nullptr;
-						return *this;
+						path_.pop_back();
 					}
 				}
 				default:
@@ -90,9 +87,53 @@ public:
 		{
 			return pointer_;
 		}
+		void push_left()
+		{
+			while (pointer_->left)
+			{
+				path_.push_back(TreeLocation::left);
+				pointer_ = pointer_->left;
+			}
+		}
+		void push_right()
+		{
+			if (pointer_->right)
+			{
+				path_.push_back(TreeLocation::right);
+				pointer_ = pointer_->right;
+			}
+			push_left();
+		}
+		void push_up()
+		{
+			path_.pop_back();
+			TreeLocation back = TreeLocation::left;
+			if (path_.size()) back = path_.back();
+			switch (back)
+			{
+				case TreeLocation::left:
+				{
+					if (pointer_->right) 
+					{
+						path_.pop_back();
+						path_.push_back(TreeLocation::right);
+						push_right();
+					}
+					else
+					{
+						push_up();
+					}
+				}
+				case TreeLocation::right:
+				{
+					push_up();
+				}
+				throw std::runtime_error("Should not be here.");
+			}
+		}
 
 	protected:
-		TreeLocation direction_ = TreeLocation::left;
+		std::list<TreeLocation> path_;
 		TreeNode* pointer_ = nullptr;
 	};
 
@@ -127,14 +168,9 @@ public:
 	TreeIterator begin() 
 	{
 		auto* p = root_;
-		if (p)
-		{
-			while (p->left)
-			{
-				p = p->left;
-			}
-		}
-		return TreeIterator(p);
+		auto it = TreeIterator(p);
+		it.push_left();
+		return it;
 	}
 	TreeIterator end() 
 	{

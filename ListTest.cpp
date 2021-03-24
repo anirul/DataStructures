@@ -15,8 +15,8 @@ TEST(ListTest, SimpleTest)
 		EXPECT_FLOAT_EQ(i, f);
 		i += 1.0f;
 	}
-	EXPECT_FLOAT_EQ(0.0f, *myList.front());
-	EXPECT_FLOAT_EQ(99.0f, *myList.back());
+	EXPECT_FLOAT_EQ(0.0f, myList.front());
+	EXPECT_FLOAT_EQ(99.0f, myList.back());
 	EXPECT_EQ(100, myList.size());
 }
 
